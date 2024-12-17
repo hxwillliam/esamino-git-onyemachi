@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +15,7 @@
             <input type="text" id="todoCategory" placeholder="Enter category" required>
             <button type="submit">Add Todo</button>
         </form>
-
+        
         <div class="filters">
             <button onclick="handleTodos()">All</button>
             <button onclick="handleTodos('active')">Active</button>
@@ -24,7 +23,9 @@
             <input type="text" id="categoryFilter" placeholder="Filter by category">
             <button onclick="filterByCategory()">Filter Category</button>
         </div>
-
+        
+        <div class="todo-stats"></div>
+        
         <ul id="todoList"></ul>
     </div>
     <script src="app.js"></script>

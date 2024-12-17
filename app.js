@@ -38,6 +38,7 @@ const addTodo = (title, category) => {
     const newTodo = new Todo(title.trim(), category.trim());
     todos.push(newTodo);
     saveTodos();
+    updateStats();
     return newTodo;
 }
 
@@ -51,6 +52,7 @@ const deleteTodo = (id) => {
     const deletedTodo = todos[index];
     todos.splice(index, 1);
     saveTodos();
+    updateStats();
     return deletedTodo;
 }
 
@@ -63,6 +65,7 @@ const toggleComplete = (id) => {
     
     todo.completed = !todo.completed;
     saveTodos();
+    updateStats();
     return todo;
 }
 
@@ -140,6 +143,8 @@ function handleTodos(filterType = '', category = '') {
         
         todoList.appendChild(li);
     });
+
+    updateStats();
 }
 
 function startEdit(id) {
@@ -172,6 +177,27 @@ function filterByCategory() {
     if (category) {
         handleTodos('category', category);
     }
+}
+
+function updateStats() {
+    const statsDiv = document.querySelector('.todo-stats');
+    const completed = todos.filter(todo => todo.completed).length;
+    const active = todos.length - completed;
+    
+    statsDiv.innerHTML = `
+        <div class="stat-item">
+            <div class="stat-count">${active}</div>
+            <div class="stat-label">Active</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-count">${completed}</div>
+            <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-count">${todos.length}</div>
+            <div class="stat-label">Total</div>
+        </div>
+    `;
 }
 
 document.getElementById('todoForm').addEventListener('submit', (e) => {
