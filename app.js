@@ -44,3 +44,22 @@ const toggleComplete = (id) => {
     todo.completed = !todo.completed;
     return todo;
 }
+
+const filterTodos = (filterType, category = '') => {
+    switch (filterType) {
+        case 'completed':
+            return todos.filter(todo => todo.completed);
+        
+        case 'active':
+            return todos.filter(todo => !todo.completed);
+            
+        case 'category':
+            if (!category) {
+                throw new Error('Category is required for category filter');
+            }
+            return todos.filter(todo => todo.category === category);
+            
+        default:
+            return todos;
+    }
+}
