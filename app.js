@@ -33,3 +33,14 @@ const deleteTodo = (id) => {
     todos.splice(index, 1);
     return deletedTodo;
 }
+
+const toggleComplete = (id) => {
+    const todo = todos.find(todo => todo.id === id);
+    
+    if (!todo) {
+        throw new Error('Todo not found');
+    }
+    
+    todo.completed = !todo.completed;
+    return todo;
+}
