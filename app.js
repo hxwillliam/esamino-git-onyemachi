@@ -55,7 +55,7 @@ const filterTodos = (filterType, category = '') => {
             
         case 'category':
             if (!category) {
-                throw new Error('Category is required for category filter');
+                throw new Error('Category needed for filter');
             }
             return todos.filter(todo => todo.category === category);
             
@@ -63,3 +63,55 @@ const filterTodos = (filterType, category = '') => {
             return todos;
     }
 }
+
+function handleTodos(filterType = '', category = '') {
+    const todoList = document.getElementById('todoList');
+    const filteredTodos = filterTodos(filterType, category);
+    
+    todoList.innerHTML = '';
+    
+    filteredTodos.forEach(todo => {
+        const li = document.createElement('li');
+        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+        
+        li.innerHTML = `
+            <div>
+                <span>${todo.title}</span>
+                <span class="todo-category">${todo.category}</span>
+            </div>
+            <div class="todo-actions">
+                <button onclick="toggleComplete(${todo.id}); handleTodos('${filterType}', '${category}')">
+                    ${todo.completed ? 'Undo' : 'Complete'}
+                </button>
+                <button class="delete-btn" onclick="deleteTodo(${todo.id}); handleTodos('${filterType}', '${category}')">
+                    Delete
+                </button>
+            </div>
+        `;
+        
+        todoList.appendChild(li);
+    });
+}
+
+function filterByCategory() {
+    const category = document.getElementById('categoryFilter').value;
+    if (category) {
+        handleTodos('category', category);
+    }
+}
+
+document.getElementById('todoForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('todoTitle').value;
+    const category = document.getElementById('todoCategory').value;
+    
+    try {
+        addTodo(title, category);
+        handleTodos();
+        e.target.reset();
+    } catch (error) {
+        alert(error.message);
+    }
+});
+
+handleTodos();
