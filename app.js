@@ -31,7 +31,7 @@ const addTodo = (title, category) => {
     if (!title || title.trim() === '') {
         throw new Error('Title cannot be empty');
     }
-    if (!category || category.trim() === '') {
+    if (!category || category.trim() == '') {
         throw new Error('Category cannot be empty');
     }
 
