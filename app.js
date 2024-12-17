@@ -21,3 +21,15 @@ const addTodo = (title, category) => {
     todos.push(newTodo);
     return newTodo;
 }
+
+const deleteTodo = (id) => {
+    const index = todos.findIndex(todo => todo.id === id);
+    
+    if (index === -1) {
+        throw new Error('Todo not found');
+    }
+    
+    const deletedTodo = todos[index];
+    todos.splice(index, 1);
+    return deletedTodo;
+}
