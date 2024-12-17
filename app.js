@@ -1,5 +1,23 @@
 let todos = [];
 
+const STORAGE_KEY = 'todos';
+
+const saveTodos = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+}
+
+const loadTodos = () => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+        todos = JSON.parse(stored).map(todo => {
+            const newTodo = new Todo(todo.title, todo.category);
+            newTodo.completed = todo.completed;
+            newTodo.id = todo.id;
+            return newTodo;
+        });
+    }
+}
+
 class Todo {
     constructor(title, category) {
         this.title = title;
@@ -19,6 +37,7 @@ const addTodo = (title, category) => {
 
     const newTodo = new Todo(title.trim(), category.trim());
     todos.push(newTodo);
+    saveTodos();
     return newTodo;
 }
 
@@ -31,6 +50,7 @@ const deleteTodo = (id) => {
     
     const deletedTodo = todos[index];
     todos.splice(index, 1);
+    saveTodos();
     return deletedTodo;
 }
 
@@ -42,6 +62,7 @@ const toggleComplete = (id) => {
     }
     
     todo.completed = !todo.completed;
+    saveTodos();
     return todo;
 }
 
@@ -114,4 +135,5 @@ document.getElementById('todoForm').addEventListener('submit', (e) => {
     }
 });
 
+loadTodos();
 handleTodos();
